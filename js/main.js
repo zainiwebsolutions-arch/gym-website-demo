@@ -14,6 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", handleNavbarScroll);
   handleNavbarScroll();
 
+  // Active Link Highlighting (Static Version)
+  const currentPath = window.location.pathname.split("/").pop() || "index.html";
+  const allNavLinks = document.querySelectorAll(".nav-links a");
+  allNavLinks.forEach(link => {
+    const linkPath = link.getAttribute("href");
+    if (linkPath === currentPath) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+
   // Scroll Reveal Animation
   const revealElements = document.querySelectorAll(
     ".reveal, .reveal-left, .reveal-right",
@@ -206,6 +218,46 @@ document.addEventListener("DOMContentLoaded", () => {
     // Close on ESC key
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") toggleMenu(false);
+    });
+  }
+
+  // Static Form Handlers
+  const newsletterForms = document.querySelectorAll('.newsletter-form');
+  newsletterForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const container = form.parentElement;
+      form.style.opacity = '0.5';
+      form.style.pointerEvents = 'none';
+      setTimeout(() => {
+        container.innerHTML = `
+          <h3 style="color: #fff; font-size: 18px; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Newsletter</h3>
+          <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.6; color: var(--primary-color); font-weight: bold;">
+            <i class="fas fa-check-circle"></i> WELCOME TO THE ELITE LIST!
+          </p>
+          <p style="font-size: 13px; color: #b0b0b0;">Check your inbox for your exclusive welcome guide.</p>
+        `;
+      }, 800);
+    });
+  });
+
+  const trialForm = document.querySelector('form[action="process-form.php"]');
+  if (trialForm) {
+    trialForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const container = trialForm.parentElement;
+      trialForm.style.opacity = '0.5';
+      trialForm.style.pointerEvents = 'none';
+      setTimeout(() => {
+        container.innerHTML = `
+          <div class="card glass text-center" style="padding: 60px; border-radius: 40px; border-color: var(--primary-color);">
+            <i class="fas fa-check-circle text-neon" style="font-size: 4rem; margin-bottom: 20px;"></i>
+            <h2 class="text-neon" style="margin-bottom: 20px;">REQUEST RECEIVED!</h2>
+            <p style="font-size: 1.2rem; color: white !important;">Thank you for reaching out. One of our master coaches will contact you within the next 24 hours to schedule your transformation session.</p>
+            <a href="index.html" class="btn btn-outline" style="margin-top: 30px; border-radius: 50px;">Return Home</a>
+          </div>
+        `;
+      }, 1000);
     });
   }
 });
