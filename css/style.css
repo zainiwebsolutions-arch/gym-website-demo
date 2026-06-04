@@ -213,15 +213,13 @@ section {
     gap: 20px !important;
   }
 
-  .hero-slider,
-  .slide {
-    height: 70vh !important;
-    background-position: top center !important; /* Better focus on mobile */
+  .hero-slider {
+    height: 85vh !important;
+    min-height: 500px !important;
   }
 
-  /* Increase padding to push text down from the fixed navbar */
-  .slide .container {
-    padding-top: 80px !important;
+  .slide-content-wrap {
+    padding-top: 90px !important;
   }
 
   .nav-links {
@@ -238,9 +236,12 @@ section {
     font-size: 2.2rem !important;
   }
 
-  .slide h2 {
-    font-size: 1.1rem !important;
-    letter-spacing: 2px !important;
+  .slide-title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem) !important;
+  }
+
+  .slide-desc {
+    font-size: 0.9rem !important;
   }
 
   /* Global fix for interior page hero sections */

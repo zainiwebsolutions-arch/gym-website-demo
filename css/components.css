@@ -188,29 +188,26 @@
   }
 }
 
-/* Hero Slider */
+/* =============================================
+   HERO SLIDER — SPLIT LAYOUT (LEFT CONTENT / RIGHT ATHLETE)
+   ============================================= */
 .hero-slider {
   position: relative;
   width: 100%;
   height: 100vh;
+  min-height: 580px;
   overflow: hidden;
 }
 
+/* Each slide is stacked and fades */
 .slide {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
   z-index: 1;
   transition: opacity 1s ease-in-out;
-  background-size: cover;
-  background-position: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: stretch;
 }
 
 .slide.active {
@@ -218,39 +215,154 @@
   z-index: 2;
 }
 
-.slide-overlay {
+/* Full-bleed background image */
+.slide-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at center,
-    rgb(0 0 0 / 70%) 0%,
-    rgba(5, 5, 5, 1) 95%
-  );
-  z-index: 1;
+  inset: 0;
+  background-size: cover;
+  background-position: center right;
+  z-index: 0;
 }
 
-.slide .container {
+/* Very subtle tint for text readability — images already have dark left side */
+.slide-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 45%,
+    rgba(0, 0, 0, 0.0) 100%
+  );
+}
+
+/* Wrapper — single column, text on left */
+.slide-content-wrap {
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-top: 80px;
 }
 
-/* Slider Controls */
+/* ---- LEFT: text content — occupies ~48% of width ---- */
+.slide-left {
+  flex: 0 0 48%;
+  max-width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.slide-title {
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 4.2vw, 4.6rem);
+  line-height: 1.22;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+}
+
+.slide-title-neon {
+  color: var(--primary-color);
+  font-style: italic;
+  text-shadow: 0 0 18px rgba(198, 255, 0, 0.35);
+}
+
+/* Short horizontal accent divider below the title */
+.slide-divider {
+  width: 80px;
+  height: 3px;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-glow);
+  flex-shrink: 0;
+}
+
+.slide-desc {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.75) !important;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* CTA buttons row */
+.slide-btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.slide-btn-primary {
+  display: inline-block;
+  padding: 13px 34px;
+  background: var(--primary-color);
+  color: #000;
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 2px solid var(--primary-color);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.slide-btn-primary:hover {
+  background: transparent;
+  color: var(--primary-color);
+  box-shadow: var(--neon-shadow);
+}
+
+.slide-btn-outline {
+  display: inline-block;
+  padding: 13px 34px;
+  background: transparent;
+  color: var(--primary-color);
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 2px solid var(--primary-color);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.slide-btn-outline:hover {
+  background: var(--primary-color);
+  color: #000;
+  box-shadow: var(--neon-shadow);
+}
+
+/* =============================================
+   SLIDER CONTROLS
+   ============================================= */
 .slider-dots {
   position: absolute;
-  bottom: 30px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 15px;
+  gap: 14px;
   z-index: 10;
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
   cursor: pointer;
@@ -260,6 +372,7 @@
 .dot.active {
   background: var(--primary-color);
   box-shadow: var(--neon-shadow);
+  transform: scale(1.2);
 }
 
 .slider-nav {
@@ -268,17 +381,17 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 28px;
   transform: translateY(-50%);
   z-index: 10;
   pointer-events: none;
 }
 
 .nav-btn {
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(5px);
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,14 +399,172 @@
   cursor: pointer;
   pointer-events: auto;
   transition: var(--transition);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(198, 255, 0, 0.25);
   color: var(--text-color);
 }
 
 .nav-btn:hover {
   background: var(--primary-color);
-  color: var(--bg-color);
+  color: #000;
   box-shadow: var(--neon-shadow);
+  transform: scale(1.1);
+}
+
+/* =============================================
+   SLIDER RESPONSIVE
+   ============================================= */
+@media (max-width: 900px) {
+
+  /* --- Background: show right side of image (athlete) --- */
+  .slide-bg {
+    background-position: right center;
+  }
+
+  /* --- Stronger overlay so text is legible --- */
+  .slide-bg::after {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.70) 50%,
+      rgba(0, 0, 0, 0.30) 100%
+    );
+  }
+
+  /* --- Content: push down from navbar, leave room at bottom for controls --- */
+  .slide-content-wrap {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 130px;
+    padding-bottom: 120px;
+    height: 100%;
+  }
+
+  .slide-left {
+    flex: 0 0 100%;
+    max-width: 85%;
+    align-items: flex-start;
+  }
+
+  .slide-title {
+    font-size: clamp(1.9rem, 7.5vw, 3rem);
+    line-height: 1.2;
+  }
+
+  /* --- Nav arrows: centered at the very bottom --- */
+  .slider-nav {
+    top: auto;
+    bottom: 18px;
+    transform: translateX(-50%);
+    left: 50%;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(198, 255, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  /* --- Dots: sit above arrows with clear breathing room --- */
+  .slider-dots {
+    bottom: 68px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-bg {
+    background-position: 70% center;
+  }
+
+  .slide-bg::after {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.75) 55%,
+      rgba(0, 0, 0, 0.20) 100%
+    );
+  }
+
+  .slide-left {
+    max-width: 100%;
+  }
+
+  .slide-title {
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
+  }
+
+  .slide-desc {
+    font-size: 0.85rem !important;
+  }
+
+  .slide-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .slide-btn-primary,
+  .slide-btn-outline {
+    text-align: center;
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+/* =============================================
+   INNER PAGE HERO — Dark overlay (used on all non-home pages)
+   ============================================= */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(5, 5, 5, 0.94) 0%,
+    rgba(5, 5, 5, 0.82) 60%,
+    rgba(5, 5, 5, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+/* Mobile: inner page hero section adjustments */
+@media (max-width: 768px) {
+  /* Re-anchor bg to top so subjects are visible on small screens */
+  section[style*="padding-top: 25vh"],
+  section[style*="padding-top: 20vh"] {
+    background-position: top center !important;
+    padding-top: 140px !important;
+    padding-bottom: 60px !important;
+    min-height: auto !important;
+  }
+
+  /* Tighten up inner page h1 on mobile */
+  section[style*="padding-top: 25vh"] h1,
+  section[style*="padding-top: 20vh"] h1 {
+    font-size: clamp(1.9rem, 8vw, 3.5rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  section[style*="padding-top: 25vh"] p,
+  section[style*="padding-top: 20vh"] p {
+    font-size: 1rem !important;
+    margin-top: 15px !important;
+  }
+
+  /* Slightly stronger overlay on mobile for readability */
+  .slide-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(5, 5, 5, 0.97) 0%,
+      rgba(5, 5, 5, 0.90) 60%,
+      rgba(5, 5, 5, 0.75) 100%
+    );
+  }
 }
 
 /* Cards */
